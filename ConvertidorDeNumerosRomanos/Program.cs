@@ -4,7 +4,7 @@ namespace ConvertidorDeNumerosRomanos
 {
     internal class Program
     {
-        static int ValorEnRomano(char r)
+        public static int ValorEnRomano(char r)
         {
             if (r == 'I')
                 return 1;
@@ -23,7 +23,7 @@ namespace ConvertidorDeNumerosRomanos
             return 0;
         }
 
-        static int ConversorRomanoDecimal(string romano)
+        public static int ConversorRomanoDecimal(string romano)
         {
             int total = 0;
             for (int i = 0; i < romano.Length; i++)
@@ -48,22 +48,22 @@ namespace ConvertidorDeNumerosRomanos
             }
             return total;
         }
-        static bool EsRomanoValido(string romano)
+        public static string EsRomanoValido(string romano)
         {
             foreach(char r in romano)
             {
                 if(ValorEnRomano(r) == 0)
                 {
-                    return false;
+                    return $" El caracter '{r}' no es un simbolo romano valido.";
                 }
             }
             if (romano.Contains("IIII") || romano.Contains("XXXX") || romano.Contains("CCCC") || romano.Contains("MMMM"))
             {
-                return false;
+                return "Un simbolo (I, X, C, M) no puede repetirse mas de tres veces seguidas.";
             }
             if(romano.Contains("VV") || romano.Contains("LL") || romano.Contains("DD"))
             {
-                return false;
+                return "Los simbolos V, L y D no pueden repetirse.";
             }
             for(int i = 0; i < romano.Length - 1; i++)
             {
@@ -75,21 +75,31 @@ namespace ConvertidorDeNumerosRomanos
                     char b = romano[i + 1];
                     if (!((a == 'I' && (b == 'V' || b == 'X')) || (a == 'X' && (b == 'L' || b == 'C')) || (a == 'C' && (b == 'D' || b == 'M'))))
                     {
-                        return false;
+                        Console.WriteLine($"La combinacion '{a}{b}' no es una resta permitida.");
+                        return $"La combinacion '{a}{b}' no es una resta permitida.";
                     }
                 }  
             }
-            return true;
+            return null;
         }
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("=== Conversor de numeros romanos a decimales ===");
+            Console.WriteLine();
             string romano;
-            while(true)
+            string error;
+            do
             {
-                Console.Write("Ingrese el numero romano a convertir: ");
-            }
-            
+                Console.Write("Ingresa un numero romano: ");
+                romano = Console.ReadLine().ToUpper();
+                error = EsRomanoValido(romano);
+                if(error != null)
+                {
+                    Console.WriteLine($"El numero romano '{romano}' No es valido. Intenta de nuevo. \n");
+                }
+            } while (error != null);
+            int resultado = ConversorRomanoDecimal(romano);
+            Console.WriteLine($"El numero romano {romano} equivale a {resultado} en decimal.");
         }
     }
 }
