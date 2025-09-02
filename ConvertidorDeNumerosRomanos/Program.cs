@@ -75,7 +75,7 @@ namespace ConvertidorDeNumerosRomanos
                     char b = romano[i + 1];
                     if (!((a == 'I' && (b == 'V' || b == 'X')) || (a == 'X' && (b == 'L' || b == 'C')) || (a == 'C' && (b == 'D' || b == 'M'))))
                     {
-                        Console.WriteLine($"La combinacion '{a}{b}' no es una resta permitida.");
+ 
                         return $"La combinacion '{a}{b}' no es una resta permitida.";
                     }
                 }  
@@ -95,7 +95,7 @@ namespace ConvertidorDeNumerosRomanos
                 error = EsRomanoValido(romano);
                 if(error != null)
                 {
-                    Console.WriteLine($"El numero romano '{romano}' No es valido. Intenta de nuevo. \n");
+                    Console.WriteLine($"Error: {error}");
                 }
             } while (error != null);
             int resultado = ConversorRomanoDecimal(romano);
